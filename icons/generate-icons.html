@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<!-- Open this file in a browser to generate and download PNG icons -->
+<html>
+<head><title>Icon Generator</title></head>
+<body style="background:#0F172A;padding:2rem;font-family:sans-serif;color:white;">
+  <h2>1MDPhiz Icon Generator</h2>
+  <p>Click each button to download the icon at that size.</p>
+
+  <canvas id="c192" width="192" height="192" style="display:none;"></canvas>
+  <canvas id="c512" width="512" height="512" style="display:none;"></canvas>
+
+  <button onclick="generate(192)" style="margin:8px;padding:12px 24px;background:#01B2FF;border:none;border-radius:8px;cursor:pointer;font-weight:bold;">Download icon-192.png</button>
+  <button onclick="generate(512)" style="margin:8px;padding:12px 24px;background:#01B2FF;border:none;border-radius:8px;cursor:pointer;font-weight:bold;">Download icon-512.png</button>
+  <button onclick="generate(72, 'badge-72')" style="margin:8px;padding:12px 24px;background:#01B2FF;border:none;border-radius:8px;cursor:pointer;font-weight:bold;">Download badge-72.png</button>
+
+  <script>
+    function generate(size, name) {
+      const id = name || `icon-${size}`;
+      const canvas = document.createElement('canvas');
+      canvas.width = size;
+      canvas.height = size;
+      const ctx = canvas.getContext('2d');
+      const s = size;
+      const r = s * 0.22; // border radius ratio
+
+      // Background: PHIZ Blue circle
+      ctx.beginPath();
+      ctx.arc(s/2, s/2, s/2, 0, Math.PI * 2);
+      ctx.fillStyle = '#01B2FF';
+      ctx.fill();
+
+      // Draw P shape
+      ctx.strokeStyle = 'white';
+      ctx.lineWidth = s * 0.12;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+
+      const lx = s * 0.28;
+      const topY = s * 0.25;
+      const botY = s * 0.75;
+      const midY = s * 0.50;
+      const rx = s * 0.72;
+
+      // Vertical stroke
+      ctx.beginPath();
+      ctx.moveTo(lx, topY);
+      ctx.lineTo(lx, botY);
+      ctx.stroke();
+
+      // P curve
+      ctx.beginPath();
+      ctx.moveTo(lx, topY);
+      ctx.bezierCurveTo(lx, topY, rx, topY, rx, midY);
+      ctx.bezierCurveTo(rx, botY * 0.85, lx, botY * 0.80, lx, midY);
+      ctx.stroke();
+
+      // Cinnamon red dot
+      ctx.beginPath();
+      ctx.arc(lx, botY, s * 0.07, 0, Math.PI * 2);
+      ctx.fillStyle = '#C63B10';
+      ctx.fill();
+
+      // Download
+      const link = document.createElement('a');
+      link.download = `${id}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }
+  </script>
+</body>
+</html>
